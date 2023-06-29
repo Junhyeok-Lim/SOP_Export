@@ -5,6 +5,7 @@ import pandas as pd
 import tkinter.ttk as ttk
 import tkinter.messagebox as msgbox
 from tkinter import * # __all__
+import tkinter as tk
 from tkinter import filedialog
 import threading, time
 
@@ -55,8 +56,16 @@ def threadfunc():
         progress_bar.update()
 
         #Progress Bar 꽉 차면 원위치
-        if progress >= 100:
-            p_var.set(0)
+        # if progress >= 100:
+        #     p_var.set(0)
+
+    if progress == 100:
+        window = tk.Tk()
+
+        progress_text = tk.Label(window, text="Convert Completed.")
+        progress_text.pack()
+
+        window.mainloop()
                 
     f_name = sopfile.split('.')[0] + '.csv' 
     df.to_csv(f_name,encoding='utf-8-sig', index=False, mode='w', header=True)
@@ -138,8 +147,9 @@ def get_opnum(shapes):
     for i, shape in enumerate(shapes):
         if shape.has_text_frame:
             text_in_shape = shape.text[:2]
-            if text_in_shape == "OP":
+            if text_in_shape == "OP" and shape.text[2:].isnumeric():
                 op_text = shape.text
+                break
     if  op_text == '':
         print("coulnd't find OP shape")  
     return op_text
