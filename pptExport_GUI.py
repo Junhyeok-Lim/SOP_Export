@@ -47,9 +47,9 @@ def threadfunc():
         items = GetItemsInSlide(slide) 
         if items : # items list 에 데이터가 있으면 추가 
             op_num = get_opnum(slide.shapes)
-            inst = get_instruction(slide)
+            
             for item in items:
-                item_dict = {'OperationStep': op_num,'Ref': item[1] ,'Man.Item.No': item[2],'Ser.Item.No': item[3] ,'Description': item[4], 'Qty': item[5], 'Instruction' : inst}
+                item_dict = {'OperationStep': op_num,'Ref': item[1] ,'Man.Item.No': item[2],'Ser.Item.No': item[3] ,'Description': item[4], 'Qty': item[5], 'Instruction' : item[6]}
                 df.loc[len(df)] = item_dict
 
         progress = (i + 1) / len(prs.slides) * 100
@@ -110,9 +110,9 @@ def GetItemInTable(table, idx):
             ser = getTextInRowCol(table, FIRST_ROW + idx, LEFT_SER_COL)
             des = getTextInRowCol(table, FIRST_ROW + idx, LEFT_DES_COL )
             qty = getTextInRowCol(table, FIRST_ROW + idx, LEFT_QTY_COL)
-            # inst = getTextInRowCol(table,INSTRUCTION_ROW,0 )
+            inst = getTextInRowCol(table,INSTRUCTION_ROW,0 )
             # inst = get_instruction(table.cell)
-            inst = ''
+            # inst =''
             
         else:
             
@@ -143,7 +143,7 @@ def GetItemsInSlide(slide):
                     items.append(item)
                 
                 elif item[6]:
-                    item = get_instruction(slide)
+                    
                     items.append(item)
 
             except:
@@ -168,15 +168,20 @@ def get_opnum(shapes):
 #         return table.cell(INSTRUCTION_ROW, 0).text_frame.text
 #     return None
 
-def get_instruction(slide):
-    for shape in slide.shapes:
-        if shape.has_table:
-            table = shape.table
-            inst_cell = table.cell(INSTRUCTION_ROW, 0)
-            if 'instruction' in inst_cell.text_frame.text.lower():
+# def get_instruction(table):
+#     if 'instruction' in table.cell(INSTRUCTION_ROW, 0).text_frame.text.lower():
+#         return table.cell(INSTRUCTION_ROW, 0).text_frame.text
+#     return None
+
+# def get_instruction(slide):
+#     for shape in slide.shapes:
+#         if shape.has_table:
+#             table = shape.table
+#             inst_cell = table.cell(INSTRUCTION_ROW, 0)
+#             if 'instruction' in inst_cell.text_frame.text.lower():
                 
-                return inst_cell.text_frame.text
-    return None
+#                 return inst_cell.text_frame.text
+#     return None
 
 # def get_instruction(slide):
 #     for shape in slide.shapes:
