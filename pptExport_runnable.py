@@ -72,6 +72,9 @@ def GetItemsInSlide(slide): # 쓰레기값 빼고 아이템들 추가
                 item = GetItemInTable(table, idx)
                 if item[5].isnumeric() and item[2]: # Description에 데이터가 있고 qty가 숫자이면 데이터 인정 
                     items.append(item)
+                
+                elif item[6]:
+                    items.append(item)
                     
             except:
                 pass
@@ -88,6 +91,7 @@ def get_opnum(shapes):
     if  op_text == '':
         print("coulnd't find OP shape")  
     return op_text
+
 
 
 ### 실행코드
